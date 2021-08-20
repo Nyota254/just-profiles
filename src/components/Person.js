@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
+import { MDBBtn } from "mdb-react-ui-kit";
+import Modal from "./Modal";
 
 function Person({ person }) {
   const { name, occupation, email, bio } = person;
-
+  const [showModal, setShowModal] = useState(false);
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
   return (
     <div className="col-md-4">
       <div className="card" style={{ width: 18 + "rem" }}>
@@ -14,13 +19,23 @@ function Person({ person }) {
         </ul>
         <div className="card-footer">
           <div className="edit-view-icon">
-            <i className="far fa-edit"></i>
-
-            <i className="far fa-eye"></i>
+            <MDBBtn color="white" onClick={() => toggleModal()}>
+              <i className="far fa-edit"></i>Edit
+            </MDBBtn>
+            <MDBBtn color="white" onClick={() => toggleModal()}>
+              <i className="far fa-eye"></i>Details
+            </MDBBtn>
           </div>
           <hr />
         </div>
       </div>
+      <Modal
+        toggleModal={toggleModal}
+        key={person.id}
+        person={person}
+        showModal={showModal}
+        setShowModal={setShowModal}
+      />
     </div>
   );
 }
