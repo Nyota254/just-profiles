@@ -1,10 +1,10 @@
 import React from "react";
 
-function Person({ prop }) {
-  const { id, name, occupation, email, bio } = prop;
+function Person({ person }) {
+  const { name, occupation, email, bio } = person;
 
   return (
-    <div className="col-md-4" key={id}>
+    <div className="col-md-4">
       <div className="card" style={{ width: 18 + "rem" }}>
         <ul className="list-group list-group-flush">
           <li className="list-group-item">Name : {name}</li>
