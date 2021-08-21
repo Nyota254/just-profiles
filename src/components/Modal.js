@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import {
   MDBBtn,
@@ -19,11 +19,15 @@ function Modal({ person, toggleModal, showModal, setShowModal }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     // console.log("works");
-    axios.patch(`https://ti-react-test.herokuapp.com/users/${person.id}`, {
-      name: userName,
-      email: userEmail,
-      bio: userBio,
-    });
+    try {
+      axios.patch(`https://ti-react-test.herokuapp.com/users/${person.id}`, {
+        name: userName,
+        email: userEmail,
+        bio: userBio,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <MDBModal
