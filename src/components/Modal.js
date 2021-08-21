@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
   MDBBtn,
   MDBModal,
@@ -11,6 +12,19 @@ import {
 } from "mdb-react-ui-kit";
 
 function Modal({ person, toggleModal, showModal, setShowModal }) {
+  const [userName, setUserName] = useState(person.name);
+  const [userEmail, setUserEmail] = useState(person.email);
+  const [userBio, setUserBio] = useState(person.bio);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // console.log("works");
+    axios.patch(`https://ti-react-test.herokuapp.com/users/${person.id}`, {
+      name: userName,
+      email: userEmail,
+      bio: userBio,
+    });
+  };
   return (
     <MDBModal
       show={showModal}
@@ -20,7 +34,7 @@ function Modal({ person, toggleModal, showModal, setShowModal }) {
       <MDBModalDialog>
         <MDBModalContent>
           <MDBModalHeader>
-            <MDBModalTitle>{person.name} Details</MDBModalTitle>
+            <MDBModalTitle>{userName} Details</MDBModalTitle>
             <MDBBtn
               className="btn-close"
               color="none"
@@ -30,52 +44,63 @@ function Modal({ person, toggleModal, showModal, setShowModal }) {
           <form>
             <MDBModalBody>
               {/* name occupation email bio */}
-              <div class="form-outline mb-4">
+              <div className="form-outline mb-4">
                 <input
                   type="text"
                   id="form4Example1"
-                  class="form-control"
-                  value={person.name}
+                  className="form-control"
+                  value={userName}
+                  onChange={(e) => {
+                    setUserName(e.target.value);
+                  }}
                 />
-                <label class="form-label" for="form4Example1">
+                <label className="form-label" htmlFor="form4Example1">
                   {/* Name */}
                 </label>
               </div>
 
-              <div class="form-outline mb-4">
+              <div className="form-outline mb-4">
                 <input
                   type="email"
                   id="form4Example2"
-                  class="form-control"
-                  value={person.email}
+                  className="form-control"
+                  value={userEmail}
+                  onChange={(e) => {
+                    setUserEmail(e.target.value);
+                  }}
                 />
-                <label class="form-label" for="form4Example2">
+                <label className="form-label" htmlFor="form4Example2">
                   {/* Email address */}
                 </label>
               </div>
 
-              <div class="form-outline mb-4">
+              <div className="form-outline mb-4">
                 <textarea
-                  class="form-control"
+                  className="form-control"
                   id="form4Example3"
                   rows="4"
-                  value={person.bio}
+                  value={userBio}
+                  onChange={(e) => {
+                    setUserBio(e.target.value);
+                  }}
                 >
                   {/* {person.bio} */}
                 </textarea>
-                <label class="form-label" for="form4Example3">
+                <label className="form-label" htmlFor="form4Example3">
                   {/* Bio */}
                 </label>
               </div>
             </MDBModalBody>
 
-            <MDBModalFooter>
-              <MDBBtn color="secondary" onClick={toggleModal}>
-                Close
-              </MDBBtn>
-              <MDBBtn>Save changes</MDBBtn>
-            </MDBModalFooter>
+            <MDBBtn type="submit" onClick={handleSubmit}>
+              Save changes
+            </MDBBtn>
           </form>
+          <MDBModalFooter>
+            <MDBBtn color="secondary" onClick={toggleModal}>
+              Close
+            </MDBBtn>
+          </MDBModalFooter>
         </MDBModalContent>
       </MDBModalDialog>
     </MDBModal>
